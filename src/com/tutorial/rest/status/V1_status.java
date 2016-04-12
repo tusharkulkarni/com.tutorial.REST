@@ -1,7 +1,9 @@
 package com.tutorial.rest.status;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.*;
+import java.sql.*;
+import com.tutorial.rest.dao.*;
 
 /**
  * This is the root path for our restful api service
@@ -15,11 +17,11 @@ import javax.ws.rs.core.MediaType;
  * @author 308tube
  *
  */
-@Path("/v1/status")
+@Path("/v1/status/")
 public class V1_status {
 
 	private static final String api_version = "00.01.00"; //version of the api
-	
+
 	/**
 	 * This method sits at the root of the api.  It will return the name
 	 * of this api.
@@ -31,7 +33,7 @@ public class V1_status {
 	public String returnTitle() {
 		return "<p>Java Web Service</p>";
 	}
-	
+
 	/**
 	 * This method will return the version number of the api
 	 * Note: this is nested one down from the root.  You will need to add version
@@ -42,11 +44,47 @@ public class V1_status {
 	 * 
 	 * @return String - version number of the api
 	 */
-/*	@Path("/version")
+	@Path("/version")
 	@GET
 	@Produces(MediaType.TEXT_HTML)
 	public String returnVersion() {
 		return "<p>Version:</p>" + api_version;
-	}*/
+	}
+
 	
+	@Path("/database")
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	public String getEmployeeDetails()throws Exception{
+		PreparedStatement query = null;
+		String str = null;
+		String returnString = null;
+		Connection conn = null;
+		try{
+			conn = TestDAO.getConn();
+			query = conn.prepareStatement("SELECT id, name FROM emp");
+			ResultSet rs = query.executeQuery();
+			while(rs.next()){
+				//Retrieve by column name
+				int id  = rs.getInt("id");
+				String name = rs.getString("name");
+				str = "id : " + id + " Name : " + name;
+			}
+			query.close();
+			returnString = "<p> Employee Details</p>"+ "\n" + str;
+
+		}catch(Exception e){
+			e.printStackTrace();
+
+		}finally{
+			if(null == query){
+				query.close();
+				}
+			if(null == conn){
+				conn.close();
+				}
+		}
+		return returnString;
+	}
+
 }
