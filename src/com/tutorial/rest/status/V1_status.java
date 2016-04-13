@@ -77,12 +77,10 @@ public class V1_status {
 			e.printStackTrace();
 
 		}finally{
-			if(null == query){
+			if(null != query){
 				query.close();
 				}
-			if(null == conn){
-				conn.close();
-				}
+			
 		}
 		return returnString;
 	}

@@ -21,10 +21,7 @@ public class TestDAO {
 				e.printStackTrace();
 			}
 		}
-		/*System.out.println("Creating statement...");
-		Statement stmt = conn.createStatement();
-		String sql;
-		sql = "SELECT id, name FROM emp";*/
+		
 
 		return conn;
 	}
