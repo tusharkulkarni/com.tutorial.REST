@@ -55,11 +55,12 @@ public class V1_status {
 	@Path("/database")
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	public String getEmployeeDetails()throws Exception{
+	public Response getEmployeeDetails()throws Exception{
 		PreparedStatement query = null;
 		String str = null;
 		String returnString = null;
 		Connection conn = null;
+		Response response = null;
 		try{
 			conn = TestDAO.getConn();
 			query = conn.prepareStatement("SELECT id, name FROM emp");
@@ -71,8 +72,9 @@ public class V1_status {
 				str = "id : " + id + " Name : " + name;
 			}
 			query.close();
-			returnString = "<p> Employee Details</p>"+ "\n" + str;
+			returnString = "<p> Parts Details</p>"+ "\n" + str;
 
+			response = Response.ok(returnString).build();
 		}catch(Exception e){
 			e.printStackTrace();
 
@@ -82,7 +84,7 @@ public class V1_status {
 				}
 			
 		}
-		return returnString;
+		return response;
 	}
 
 }
