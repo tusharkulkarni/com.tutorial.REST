@@ -4,6 +4,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.sql.*;
 import com.tutorial.rest.dao.*;
+import com.test.air.*;
 
 /**
  * This is the root path for our restful api service
@@ -31,7 +32,9 @@ public class V1_status {
 	@GET
 	@Produces(MediaType.TEXT_HTML)
 	public String returnTitle() {
-		return "<p>Java Web Service</p>";
+		 JarTest jt = new JarTest();
+		 String testStr = jt.getString();
+		return "<p>Java Web Service</p>\n" + testStr;
 	}
 
 	/**
