@@ -2,9 +2,14 @@ package com.tutorial.rest.status;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+
+import org.codehaus.jettison.json.JSONArray;
+
 import java.sql.*;
 import com.tutorial.rest.dao.*;
-import com.test.air.*;
+import com.spoonacular.test.*;
+//import com.test.air.*;
+import com.test.air.JarTest;
 
 /**
  * This is the root path for our restful api service
@@ -30,11 +35,17 @@ public class V1_status {
 	 * @return String - Title of the api
 	 */
 	@GET
-	@Produces(MediaType.TEXT_HTML)
+	@Produces(MediaType.APPLICATION_JSON)
 	public String returnTitle() {
-		 JarTest jt = new JarTest();
-		 String testStr = jt.getString();
-		return "<p>Java Web Service</p>\n" + testStr;
+		JSONArray jsonArray=null;
+		 SpoonacularTest st = new SpoonacularTest();
+		 try{
+		  jsonArray= st.getRecipeList(null);
+		 }catch(Exception e){
+			 e.printStackTrace();
+			 
+		 }
+		return jsonArray.toString();
 	}
 
 	/**
